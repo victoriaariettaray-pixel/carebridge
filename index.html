@@ -8,16 +8,18 @@
     :root {
       --bg-1: #f4f7fb;
       --bg-2: #eef3ff;
-      --card: rgba(255, 255, 255, 0.82);
-      --card-strong: rgba(255, 255, 255, 0.92);
+      --card: rgba(255, 255, 255, 0.84);
+      --card-strong: rgba(255, 255, 255, 0.94);
       --text: #0f172a;
       --muted: #475569;
       --line: rgba(15, 23, 42, 0.08);
       --shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
       --radius-xl: 28px;
       --radius-lg: 20px;
+      --radius-md: 16px;
       --accent: #2563eb;
-      --accent-soft: rgba(37, 99, 235, 0.08);
+      --accent-soft: rgba(37, 99, 235, 0.1);
+      --accent-strong: #1d4ed8;
     }
 
     body.dark-mode {
@@ -28,9 +30,10 @@
       --text: #f8fafc;
       --muted: #cbd5e1;
       --line: rgba(255, 255, 255, 0.08);
-      --shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.32);
       --accent: #60a5fa;
-      --accent-soft: rgba(96, 165, 250, 0.14);
+      --accent-soft: rgba(96, 165, 250, 0.16);
+      --accent-strong: #93c5fd;
     }
 
     * {
@@ -43,7 +46,7 @@
 
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
       background:
         radial-gradient(circle at top left, rgba(255,255,255,0.9) 0%, rgba(245,248,255,0.7) 35%, transparent 60%),
@@ -73,13 +76,13 @@
     }
 
     .brand-name {
-      font-size: 1.1rem;
+      font-size: 1.12rem;
       font-weight: 700;
       letter-spacing: -0.03em;
     }
 
     .brand-tag {
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       color: var(--muted);
     }
 
@@ -87,6 +90,13 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+    }
+
+    .ghost-btn,
+    .secondary-btn,
+    .primary-btn,
+    .flow-btn {
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .ghost-btn {
@@ -97,7 +107,6 @@
       padding: 10px 14px;
       font-size: 0.92rem;
       cursor: pointer;
-      transition: 0.2s ease;
       backdrop-filter: blur(10px);
     }
 
@@ -109,7 +118,8 @@
 
     .ghost-btn:hover,
     .secondary-btn:hover,
-    .primary-btn:hover {
+    .primary-btn:hover,
+    .flow-btn:hover {
       transform: translateY(-1px);
     }
 
@@ -135,16 +145,14 @@
     .path-card,
     .path-box,
     .bottom-item,
-    .mini-stat {
-      transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    .mini-stat,
+    .flow-panel {
+      transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
     }
 
     .hero-card {
-      padding: 38px 36px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 365px;
+      padding: 36px;
+      min-height: 345px;
       background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
     }
 
@@ -153,8 +161,9 @@
     body.dark-mode .path-card,
     body.dark-mode .path-box,
     body.dark-mode .bottom-item,
-    body.dark-mode .mini-stat {
-      background: rgba(15, 23, 42, 0.74);
+    body.dark-mode .mini-stat,
+    body.dark-mode .flow-panel {
+      background: rgba(15, 23, 42, 0.76);
     }
 
     .eyebrow {
@@ -166,14 +175,14 @@
       border-radius: 999px;
       border: 1px solid var(--line);
       background: var(--accent-soft);
-      color: var(--accent);
+      color: var(--accent-strong);
       font-size: 0.85rem;
       font-weight: 600;
     }
 
     h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2.4rem, 4vw, 4.25rem);
+      margin: 0 0 12px;
+      font-size: clamp(2.25rem, 3.8vw, 4rem);
       line-height: 0.98;
       letter-spacing: -0.05em;
       max-width: 11ch;
@@ -184,22 +193,23 @@
       font-size: 1.02rem;
       font-weight: 600;
       color: var(--text);
-      opacity: 0.9;
+      opacity: 0.92;
+      max-width: 34ch;
     }
 
     .hero-copy {
-      margin: 0 0 22px;
+      margin: 0 0 20px;
       max-width: 60ch;
       color: var(--muted);
       font-size: 1rem;
-      line-height: 1.72;
+      line-height: 1.7;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     .primary-btn {
@@ -211,7 +221,6 @@
       font-size: 0.96rem;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s ease;
       box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14);
     }
 
@@ -229,7 +238,6 @@
       font-size: 0.96rem;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.2s ease;
     }
 
     .hero-stats {
@@ -258,8 +266,8 @@
     }
 
     .feature-card {
-      padding: 28px 28px 24px;
-      min-height: 365px;
+      padding: 26px 28px 20px;
+      min-height: 345px;
       background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,0.82));
     }
 
@@ -332,7 +340,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
-      margin: 22px 0 22px;
+      margin: 22px 0 18px;
     }
 
     .path-box {
@@ -340,24 +348,133 @@
       border-radius: var(--radius-lg);
       background: rgba(255, 255, 255, 0.72);
       padding: 22px 18px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .path-box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 26px rgba(15, 23, 42, 0.08);
+      border-color: var(--accent);
+    }
+
+    .path-box.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+      background: linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.78));
+    }
+
+    body.dark-mode .path-box.active {
+      background: rgba(20, 32, 58, 0.96);
+    }
+
+    .path-kicker {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 10px;
     }
 
     .path-box h3 {
       margin: 0 0 8px;
-      font-size: 1rem;
+      font-size: 1.1rem;
       letter-spacing: -0.02em;
     }
 
     .path-box p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.96rem;
       line-height: 1.62;
     }
 
     .path-footer {
       display: flex;
-      justify-content: flex-start;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .selection-note {
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .flow-panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      background: rgba(255, 255, 255, 0.68);
+      display: none;
+    }
+
+    .flow-panel.visible {
+      display: block;
+    }
+
+    .flow-panel h3 {
+      margin: 0 0 8px;
+      font-size: 1.08rem;
+    }
+
+    .flow-panel p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.62;
+    }
+
+    .flow-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .flow-step {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    body.dark-mode .flow-step {
+      background: rgba(30, 41, 59, 0.6);
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .flow-step span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .flow-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .flow-btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 11px 16px;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    body.dark-mode .flow-btn {
+      background: rgba(30, 41, 59, 0.82);
+      color: var(--text);
     }
 
     .bottom-strip {
@@ -367,7 +484,7 @@
     }
 
     .bottom-item {
-      padding: 20px 18px;
+      padding: 22px 20px;
       border-radius: var(--radius-lg);
       border: 1px solid var(--line);
       background: rgba(255, 255, 255, 0.7);
@@ -386,12 +503,10 @@
     }
 
     @media (max-width: 920px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-      }
-
+      .hero-grid,
       .path-grid,
-      .bottom-strip {
+      .bottom-strip,
+      .flow-steps {
         grid-template-columns: 1fr;
       }
 
@@ -423,23 +538,18 @@
       }
 
       .hero-actions,
-      .topbar-actions {
+      .topbar-actions,
+      .path-footer,
+      .flow-actions {
         width: 100%;
       }
 
       .primary-btn,
       .secondary-btn,
-      .ghost-btn {
+      .ghost-btn,
+      .flow-btn {
         width: 100%;
         text-align: center;
-      }
-
-      .path-footer {
-        display: block;
-      }
-
-      .path-footer .primary-btn {
-        width: 100%;
       }
     }
   </style>
@@ -474,8 +584,8 @@
           </p>
 
           <div class="hero-actions">
-            <button class="primary-btn" type="button">Start Your Visit</button>
-            <button class="secondary-btn" type="button">See How It Works</button>
+            <button class="primary-btn" id="heroStartBtn" type="button">Start Your Visit</button>
+            <button class="secondary-btn" id="seeHowBtn" type="button">See How It Works</button>
           </div>
 
           <div class="hero-stats">
@@ -505,8 +615,7 @@
             <div class="feature-item">
               <h3>2 connected views</h3>
               <p>
-                Patient and provider experiences work together while supporting
-                different needs.
+                Patient and provider experiences work together while supporting different needs.
               </p>
             </div>
 
@@ -527,34 +636,88 @@
         </aside>
       </section>
 
-      <section class="card path-card">
+      <section class="card path-card" id="chooseView">
         <div class="section-label">Explore the product</div>
         <h2>Choose your view</h2>
         <p class="section-intro">
-          Select the experience you want to explore and see how CareBridge supports
-          both sides of care.
+          Select the experience you want to explore and see how CareBridge supports both sides of care.
         </p>
 
         <div class="path-grid">
-          <div class="path-box">
-            <h3>Patient view</h3>
+          <div class="path-box active" id="patientCard" role="button" tabindex="0" aria-pressed="true">
+            <div class="path-kicker">Start here</div>
+            <h3>I’m a Patient</h3>
             <p>
-              A softer, guided experience focused on symptom tracking, visit
-              preparation, and reassurance.
+              A softer, guided experience focused on symptom tracking, visit preparation, and reassurance.
             </p>
           </div>
 
-          <div class="path-box">
-            <h3>Provider view</h3>
+          <div class="path-box" id="providerCard" role="button" tabindex="0" aria-pressed="false">
+            <div class="path-kicker">Start here</div>
+            <h3>I’m a Provider</h3>
             <p>
-              A faster clinical workflow focused on summaries, urgency signals,
-              and time-saving intake review.
+              A faster clinical workflow focused on summaries, urgency signals, and time-saving intake review.
             </p>
           </div>
         </div>
 
         <div class="path-footer">
-          <button class="primary-btn" type="button">Start Your Visit</button>
+          <button class="primary-btn" id="pathStartBtn" type="button">Start Your Visit</button>
+          <div class="selection-note" id="selectionNote">Current selection: Patient flow</div>
+        </div>
+
+        <div class="flow-panel visible" id="patientFlow">
+          <h3>Patient flow preview</h3>
+          <p>
+            This path helps patients organize symptoms, understand next steps, and arrive more prepared for care.
+          </p>
+
+          <div class="flow-steps">
+            <div class="flow-step">
+              <strong>1. Share symptoms</strong>
+              <span>Log how you feel, what changed, and when it started.</span>
+            </div>
+            <div class="flow-step">
+              <strong>2. Get guidance</strong>
+              <span>See whether to monitor at home, schedule, or seek urgent help.</span>
+            </div>
+            <div class="flow-step">
+              <strong>3. Walk in prepared</strong>
+              <span>Bring a clearer summary into the visit with less confusion.</span>
+            </div>
+          </div>
+
+          <div class="flow-actions">
+            <button class="flow-btn" type="button">Track Symptoms</button>
+            <button class="flow-btn" type="button">Review Next Steps</button>
+          </div>
+        </div>
+
+        <div class="flow-panel" id="providerFlow">
+          <h3>Provider flow preview</h3>
+          <p>
+            This path gives clinicians faster intake review, clearer patient summaries, and better prioritization before the visit begins.
+          </p>
+
+          <div class="flow-steps">
+            <div class="flow-step">
+              <strong>1. Intake summary</strong>
+              <span>Review symptoms, timing, and patient-reported concerns at a glance.</span>
+            </div>
+            <div class="flow-step">
+              <strong>2. Priority sorting</strong>
+              <span>Surface higher-risk cases faster so staff can focus where needed most.</span>
+            </div>
+            <div class="flow-step">
+              <strong>3. Faster handoff</strong>
+              <span>Start the visit with more context and less repeated intake friction.</span>
+            </div>
+          </div>
+
+          <div class="flow-actions">
+            <button class="flow-btn" type="button">View Intake Queue</button>
+            <button class="flow-btn" type="button">Review Summaries</button>
+          </div>
         </div>
       </section>
 
@@ -582,6 +745,65 @@
     const themeToggle = document.getElementById('themeToggle');
     const resetDemo = document.getElementById('resetDemo');
 
+    const patientCard = document.getElementById('patientCard');
+    const providerCard = document.getElementById('providerCard');
+    const patientFlow = document.getElementById('patientFlow');
+    const providerFlow = document.getElementById('providerFlow');
+    const selectionNote = document.getElementById('selectionNote');
+
+    const heroStartBtn = document.getElementById('heroStartBtn');
+    const pathStartBtn = document.getElementById('pathStartBtn');
+    const seeHowBtn = document.getElementById('seeHowBtn');
+    const chooseView = document.getElementById('chooseView');
+
+    let selectedView = 'patient';
+
+    function setView(view) {
+      selectedView = view;
+
+      const isPatient = view === 'patient';
+
+      patientCard.classList.toggle('active', isPatient);
+      providerCard.classList.toggle('active', !isPatient);
+
+      patientCard.setAttribute('aria-pressed', isPatient ? 'true' : 'false');
+      providerCard.setAttribute('aria-pressed', !isPatient ? 'true' : 'false');
+
+      patientFlow.classList.toggle('visible', isPatient);
+      providerFlow.classList.toggle('visible', !isPatient);
+
+      selectionNote.textContent = `Current selection: ${isPatient ? 'Patient flow' : 'Provider flow'}`;
+    }
+
+    function openSelectedFlow() {
+      chooseView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setView(selectedView);
+    }
+
+    patientCard.addEventListener('click', () => setView('patient'));
+    providerCard.addEventListener('click', () => setView('provider'));
+
+    patientCard.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setView('patient');
+      }
+    });
+
+    providerCard.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setView('provider');
+      }
+    });
+
+    heroStartBtn.addEventListener('click', openSelectedFlow);
+    pathStartBtn.addEventListener('click', openSelectedFlow);
+
+    seeHowBtn.addEventListener('click', () => {
+      chooseView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
     themeToggle.addEventListener('click', () => {
       body.classList.toggle('dark-mode');
       themeToggle.textContent = body.classList.contains('dark-mode')
@@ -592,8 +814,11 @@
     resetDemo.addEventListener('click', () => {
       body.classList.remove('dark-mode');
       themeToggle.textContent = 'Dark mode';
+      setView('patient');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
+    setView('patient');
   </script>
 </body>
 </html>
