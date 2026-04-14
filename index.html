@@ -1,0 +1,980 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CareBridge | Solara Care Collective</title>
+<style>
+  :root{
+    --bg:#f4f8fc;
+    --panel:#ffffff;
+    --panel-2:#edf5ff;
+    --text:#17324d;
+    --muted:#5d7894;
+    --line:#dbe7f3;
+    --nav:#eaf3ffcc;
+    --brand:#2f7de1;
+    --brand-2:#78b8ff;
+    --brand-3:#cfe6ff;
+    --accent:#8ad4ff;
+    --urgent:#f06464;
+    --schedule:#f3b24b;
+    --monitor:#55b98c;
+    --shadow:0 16px 40px rgba(42,96,160,0.10);
+  }
+
+  body.dark{
+    --bg:#0e1826;
+    --panel:#132235;
+    --panel-2:#182b43;
+    --text:#e8f2ff;
+    --muted:#9fb5cc;
+    --line:#28425e;
+    --nav:#122235cc;
+    --brand:#6cb2ff;
+    --brand-2:#8fd9ff;
+    --brand-3:#143657;
+    --accent:#79c7ff;
+    --shadow:0 16px 40px rgba(0,0,0,0.35);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    background:
+      radial-gradient(circle at top right, rgba(120,184,255,0.18), transparent 26%),
+      radial-gradient(circle at top left, rgba(47,125,225,0.10), transparent 30%),
+      var(--bg);
+    color:var(--text);
+    transition: background .25s ease, color .25s ease;
+  }
+
+  @keyframes fadeUp{
+    from{
+      opacity:0;
+      transform: translateY(14px);
+    }
+    to{
+      opacity:1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes softPulse{
+    0%,100%{ box-shadow: 0 10px 24px rgba(47,125,225,0.22); }
+    50%{ box-shadow: 0 14px 30px rgba(47,125,225,0.30); }
+  }
+
+  .shell{
+    min-height:100vh;
+  }
+
+  .topbar{
+    position:sticky;
+    box-shadow: 0 8px 26px rgba(32,76,132,0.08);
+    top:0;
+    z-index:20;
+    backdrop-filter: blur(16px);
+    background:var(--nav);
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 24px;
+  }
+
+  .brand-wrap{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+
+  .logo{
+    width:58px;
+    height:58px;
+    border-radius:16px;
+    background:linear-gradient(145deg, var(--brand-3), #ffffff00);
+    display:grid;
+    place-items:center;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+  }
+
+  .brand-text{
+    line-height:1.05;
+  }
+
+  .brand-name{
+    font-weight:900;
+    letter-spacing:.15px;
+    font-size:1.18rem;
+  }
+
+  .brand-sub{
+    color:var(--muted);
+    font-size:.84rem;
+    margin-top:4px;
+  }
+
+  .actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  button, .btn{
+    border:none;
+    border-radius:14px;
+    padding:11px 16px;
+    font-weight:650;
+    cursor:pointer;
+    transition:.2s ease;
+  }
+
+  .btn-primary{
+    background:linear-gradient(135deg, var(--brand), var(--brand-2));
+    color:white;
+    box-shadow: 0 10px 24px rgba(47,125,225,0.22);
+    animation: softPulse 3.2s ease-in-out infinite;
+  }
+
+  .btn-secondary{
+    background:var(--panel);
+    color:var(--text);
+    border:1px solid var(--line);
+  }
+
+  button:hover, .btn:hover{
+    transform: translateY(-1px);
+  }
+
+  .container{
+    max-width:1180px;
+    margin:0 auto;
+    padding:32px 20px 48px;
+  }
+
+  .hero{
+    display:grid;
+    animation: fadeUp .5s ease both;
+    grid-template-columns: 1.2fr .9fr;
+    gap:22px;
+    align-items:stretch;
+    margin-bottom:24px;
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:26px;
+    box-shadow:var(--shadow);
+    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+  }
+
+  .card:hover{
+    transform: translateY(-2px);
+    box-shadow:0 20px 46px rgba(42,96,160,0.14);
+  }
+
+  .hero-left{
+    padding:32px;
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    background:var(--panel-2);
+    color:var(--brand);
+    border-radius:999px;
+    font-size:.85rem;
+    font-weight:700;
+    margin-bottom:16px;
+  }
+
+  h1{
+    margin:0 0 12px;
+    font-size:2.7rem;
+    line-height:1.05;
+    letter-spacing:-.03em;
+  }
+
+  .hero p{
+    margin:0;
+    color:var(--muted);
+    line-height:1.6;
+    font-size:1rem;
+  }
+
+  .hero-right{
+    padding:24px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+
+  .metric{
+    padding:18px;
+    border-radius:20px;
+    background:linear-gradient(180deg, var(--panel-2), transparent);
+    border:1px solid var(--line);
+  }
+
+  .metric .k{
+    font-size:1.65rem;
+    font-weight:800;
+    margin-bottom:6px;
+  }
+
+  .metric .m{
+    color:var(--muted);
+    font-size:.9rem;
+    line-height:1.35;
+  }
+
+  .view-tabs{
+    display:flex;
+    gap:10px;
+    margin:8px 0 18px;
+  }
+
+  .tab{
+    padding:10px 14px;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:var(--panel);
+    color:var(--text);
+    font-weight:700;
+  }
+
+  .tab.active{
+    background:var(--panel-2);
+    color:var(--brand);
+    border-color:rgba(47,125,225,.2);
+  }
+
+  .tab:hover{
+    transform: translateY(-1px);
+    border-color: rgba(47,125,225,.18);
+  }
+
+  .hidden{display:none !important;}
+
+  .login-panel{
+    max-width:560px;
+    animation: fadeUp .65s ease both;
+    margin:28px auto 0;
+    padding:28px;
+  }
+
+  .login-grid{
+    display:grid;
+    gap:14px;
+    margin-top:20px;
+  }
+
+  .role-select{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+
+  .role-card{
+    border:1px solid var(--line);
+    background:var(--panel);
+    border-radius:20px;
+    padding:18px;
+    cursor:pointer;
+  }
+
+  .role-card.selected{
+    outline:2px solid rgba(47,125,225,.28);
+    background:var(--panel-2);
+  }
+
+  .role-title{
+    font-weight:800;
+    margin-bottom:6px;
+  }
+
+  .role-copy{
+    color:var(--muted);
+    font-size:.92rem;
+    line-height:1.5;
+  }
+
+  .app-grid{
+    display:grid;
+    grid-template-columns: 1.02fr .98fr;
+    gap:20px;
+    align-items:start;
+  }
+
+  .panel{
+    padding:24px;
+  }
+
+  .section-title{
+    margin:0 0 6px;
+    font-size:1.25rem;
+    font-weight:800;
+    letter-spacing:-.02em;
+  }
+
+  .section-copy{
+    margin:0 0 20px;
+    color:var(--muted);
+    line-height:1.55;
+  }
+
+  .field{
+    margin-bottom:14px;
+  }
+
+  label{
+    display:block;
+    font-size:.88rem;
+    font-weight:700;
+    margin-bottom:8px;
+    color:var(--text);
+  }
+
+  input, textarea, select{
+    width:100%;
+    padding:14px 15px;
+    border-radius:16px;
+    border:1px solid var(--line);
+    background:var(--panel);
+    color:var(--text);
+    outline:none;
+    font:inherit;
+  }
+
+  textarea{
+    min-height:100px;
+    resize:vertical;
+  }
+
+  input:focus, textarea:focus, select:focus{
+    border-color:rgba(47,125,225,.4);
+    box-shadow:0 0 0 4px rgba(47,125,225,.12);
+  }
+
+  .helper{
+    font-size:.82rem;
+    color:var(--muted);
+    margin-top:6px;
+  }
+
+  .triage-banner{
+    margin-top:18px;
+    padding:16px 18px;
+    border-radius:18px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, var(--panel-2), transparent);
+  }
+
+  .triage-label{
+    display:inline-block;
+    font-size:.78rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    border-radius:999px;
+    padding:6px 10px;
+    margin-bottom:10px;
+    color:white;
+  }
+
+  .triage-urgent{ background:var(--urgent); }
+  .triage-schedule{ background:var(--schedule); }
+  .triage-monitor{ background:var(--monitor); }
+
+  .triage-main{
+    font-size:1.1rem;
+    font-weight:800;
+    margin:0 0 8px;
+  }
+
+  .triage-copy{
+    color:var(--muted);
+    margin:0;
+    line-height:1.55;
+  }
+
+  .dashboard-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:14px;
+  }
+
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .chip{
+    padding:8px 12px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--panel);
+    font-size:.82rem;
+    font-weight:700;
+    color:var(--muted);
+  }
+
+  .list{
+    display:grid;
+    gap:14px;
+    margin-top:14px;
+  }
+
+  .patient-card{
+    padding:18px;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    border-radius:22px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, var(--panel), var(--panel-2));
+    position:relative;
+    overflow:hidden;
+  }
+
+  .patient-card:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 18px 34px rgba(42,96,160,0.12);
+  }
+
+  .patient-card::after{
+    content:"";
+    position:absolute;
+    inset:0 auto 0 0;
+    width:6px;
+    border-radius:6px;
+  }
+
+  .patient-card.urgent::after{ background:var(--urgent); }
+  .patient-card.schedule::after{ background:var(--schedule); }
+  .patient-card.monitor::after{ background:var(--monitor); }
+
+  .patient-top{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:flex-start;
+    margin-bottom:10px;
+  }
+
+  .patient-name{
+    font-weight:800;
+    font-size:1.05rem;
+  }
+
+  .patient-time{
+    color:var(--muted);
+    font-size:.82rem;
+    white-space:nowrap;
+  }
+
+  .pill{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:7px 10px;
+    border-radius:999px;
+    color:white;
+    font-size:.76rem;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+
+  .pill.urgent{ background:var(--urgent); }
+  .pill.schedule{ background:var(--schedule); }
+  .pill.monitor{ background:var(--monitor); }
+
+  .patient-summary{
+    color:var(--text);
+    margin:12px 0 10px;
+    font-weight:700;
+  }
+
+  .patient-meta{
+    color:var(--muted);
+    line-height:1.55;
+    font-size:.93rem;
+  }
+
+  .patient-actions{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+  }
+
+  .empty{
+    border:1px dashed var(--line);
+    border-radius:22px;
+    padding:24px;
+    text-align:center;
+    color:var(--muted);
+    background:var(--panel-2);
+  }
+
+  .presenter-card{
+    margin-top:24px;
+    padding:22px;
+    animation: fadeUp .8s ease both;
+  }
+
+  .presenter-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+
+  .mini-title{
+    font-weight:800;
+    margin-bottom:10px;
+  }
+
+  ul.clean{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:grid;
+    gap:10px;
+    color:var(--muted);
+  }
+
+  ul.clean li{
+    padding-left:14px;
+    position:relative;
+    line-height:1.5;
+  }
+
+  ul.clean li::before{
+    content:"•";
+    position:absolute;
+    left:0;
+    color:var(--brand);
+    font-weight:900;
+  }
+
+  .footer-note{
+    margin-top:18px;
+    color:var(--muted);
+    font-size:.82rem;
+  }
+
+  @media (max-width: 920px){
+    .hero, .app-grid, .presenter-grid{
+      grid-template-columns:1fr;
+    }
+    .hero-right{
+      grid-template-columns:1fr 1fr;
+    }
+  }
+
+  @media (max-width: 640px){
+    .topbar{
+      flex-direction:column;
+      align-items:flex-start;
+      gap:12px;
+    }
+    .hero-right{
+      grid-template-columns:1fr;
+    }
+    .role-select{
+      grid-template-columns:1fr;
+    }
+    h1{
+      font-size:2rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div class="brand-wrap">
+      <div class="logo" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 64 64" fill="none">
+          <defs>
+            <linearGradient id="sunG" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#8ED3FF"/>
+              <stop offset="1" stop-color="#2F7DE1"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="12" fill="url(#sunG)"/>
+          <g stroke="url(#sunG)" stroke-width="4" stroke-linecap="round">
+            <path d="M32 6v10"/>
+            <path d="M32 48v10"/>
+            <path d="M58 32H48"/>
+            <path d="M16 32H6"/>
+            <path d="M50.38 13.62l-7.07 7.07"/>
+            <path d="M20.69 43.31l-7.07 7.07"/>
+            <path d="M50.38 50.38l-7.07-7.07"/>
+            <path d="M20.69 20.69l-7.07-7.07"/>
+          </g>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">CareBridge</div>
+        <div class="brand-sub">Calm intake. Clearer triage.</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="toggleMode()">Toggle dark mode</button>
+      <button class="btn btn-secondary" onclick="resetApp()">Reset demo</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="hero">
+      <div class="card hero-left">
+        
+        <h1>Modern triage without the cold, rigid feel.</h1>
+        <p>
+          CareBridge is a calmer, more human intake experience that routes patients into a clean provider workflow.
+          It is designed to feel reassuring on the patient side and efficient on the clinical side.
+        </p>
+      </div>
+      <div class="card hero-right">
+        <div class="metric">
+          <div class="k">2 roles</div>
+          <div class="m">Separate patient and provider views to mirror a real system.</div>
+        </div>
+        <div class="metric">
+          <div class="k">3 outcomes</div>
+          <div class="m">Monitor at home, schedule a visit, or urgent evaluation.</div>
+        </div>
+        <div class="metric">
+          <div class="k">Live sort</div>
+          <div class="m">Provider dashboard automatically prioritizes higher urgency first.</div>
+        </div>
+        
+      </div>
+    </div>
+
+    <div id="loginView" class="card login-panel">
+      <div class="section-title">Choose your view</div>
+      <p class="section-copy">
+        This prototype separates the patient intake experience from the provider workflow to show how the same information can serve both sides differently.
+      </p>
+
+      <div class="role-select">
+        <div class="role-card selected" data-role="patient" onclick="selectRole('patient')">
+          <div class="role-title">Patient view</div>
+          <div class="role-copy">A softer experience focused on symptom entry, clarity, and reassurance.</div>
+        </div>
+        <div class="role-card" data-role="provider" onclick="selectRole('provider')">
+          <div class="role-title">Provider view</div>
+          <div class="role-copy">A cleaner workflow focused on urgency, summaries, and faster scanning.</div>
+        </div>
+      </div>
+
+      <div class="login-grid">
+        <button class="btn btn-primary" onclick="enterApp()">Enter CareBridge</button>
+      </div>
+    </div>
+
+    <div id="mainApp" class="hidden">
+      <div class="view-tabs">
+        <button id="patientTab" class="tab active" onclick="showView('patient')">Patient</button>
+        <button id="providerTab" class="tab" onclick="showView('provider')">Provider</button>
+      </div>
+
+      <div class="app-grid">
+        <div id="patientPanel" class="card panel">
+          <div class="section-title">Patient intake</div>
+          <p class="section-copy">
+            A simple, reassuring intake flow that reduces confusion instead of adding to it.
+          </p>
+
+          <div class="field">
+            <label for="name">Patient name</label>
+            <input id="name" type="text" placeholder="Enter full name" />
+          </div>
+
+          <div class="field">
+            <label for="symptoms">Symptoms</label>
+            <textarea id="symptoms" placeholder="Describe symptoms in a few words..."></textarea>
+            <div class="helper">Example: chest pain, dizziness, headache, sore throat, abdominal pain</div>
+          </div>
+
+          <div class="field">
+            <label for="pain">Pain level</label>
+            <select id="pain">
+              <option value="">Select pain level</option>
+              <option value="1">1 - very mild</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4 - noticeable</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7 - difficult to ignore</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10 - severe</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="insurance">Insurance status</label>
+            <select id="insurance">
+              <option value="">Select</option>
+              <option value="Insured">Insured</option>
+              <option value="Uninsured">Uninsured</option>
+              <option value="Unknown">Unknown</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary" onclick="submitPatient()">Submit intake</button>
+
+          <div id="triageResult" class="triage-banner hidden"></div>
+        </div>
+
+        <div id="providerPanel" class="card panel hidden">
+          <div class="dashboard-head">
+            <div>
+              <div class="section-title">Provider dashboard</div>
+              <p class="section-copy" style="margin-bottom:0;">
+                Prioritized patient cards with quick summaries and cleaner scanning.
+              </p>
+            </div>
+            <div class="chip-row">
+              <span class="chip" id="countAll">0 total</span>
+              <span class="chip" id="countUrgent">0 urgent</span>
+              <span class="chip" id="countSchedule">0 schedule</span>
+              <span class="chip" id="countMonitor">0 monitor</span>
+            </div>
+          </div>
+
+          <div id="patientList" class="list">
+            <div class="empty">No patient submissions yet. Enter a sample patient from the patient view to show the workflow live.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card presenter-card">
+        <div class="presenter-grid">
+          <div>
+            <div class="mini-title">Key talking points</div>
+            <ul class="clean">
+              <li>I wanted it to feel calmer and more human than a typical rigid portal.</li>
+              <li>The patient side focuses on clarity, while the provider side focuses on speed and prioritization.</li>
+              <li>The goal is not to replace judgment. It is to reduce friction before care begins.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="mini-title">What makes this different</div>
+            <ul class="clean">
+              
+              <li>Two-role experience instead of one generic screen for everyone.</li>
+              <li>Simple enough to demo live, but structured enough to show product thinking.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-note">
+          Demo brand: Solara Care Collective. This is a concept prototype created to present workflow, branding, and user experience direction.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let selectedRole = 'patient';
+  let patients = [];
+
+  function selectRole(role){
+    selectedRole = role;
+    document.querySelectorAll('.role-card').forEach(card => {
+      card.classList.toggle('selected', card.dataset.role === role);
+    });
+  }
+
+  function enterApp(){
+    document.getElementById('loginView').classList.add('hidden');
+    document.getElementById('mainApp').classList.remove('hidden');
+    showView(selectedRole);
+  }
+
+  function showView(view){
+    const patientPanel = document.getElementById('patientPanel');
+    const providerPanel = document.getElementById('providerPanel');
+    const patientTab = document.getElementById('patientTab');
+    const providerTab = document.getElementById('providerTab');
+
+    if(view === 'patient'){
+      patientPanel.classList.remove('hidden');
+      providerPanel.classList.add('hidden');
+      patientTab.classList.add('active');
+      providerTab.classList.remove('active');
+    } else {
+      providerPanel.classList.remove('hidden');
+      patientPanel.classList.add('hidden');
+      providerTab.classList.add('active');
+      patientTab.classList.remove('active');
+    }
+  }
+
+  function toggleMode(){
+    document.body.classList.toggle('dark');
+  }
+
+  function resetApp(){
+    patients = [];
+    document.getElementById('name').value = '';
+    document.getElementById('symptoms').value = '';
+    document.getElementById('pain').value = '';
+    document.getElementById('insurance').value = '';
+    document.getElementById('triageResult').className = 'triage-banner hidden';
+    document.getElementById('triageResult').innerHTML = '';
+    renderPatients();
+  }
+
+  function triage(symptoms, pain){
+    const s = symptoms.toLowerCase();
+    const urgentTerms = ['chest pain', 'shortness of breath', 'severe bleeding', 'fainting', 'passed out', 'can\'t breathe'];
+    const isUrgentWord = urgentTerms.some(term => s.includes(term));
+    const p = Number(pain);
+
+    if (p >= 8 || isUrgentWord){
+      return {
+        key:'urgent',
+        label:'Urgent evaluation',
+        summary:'Higher-risk symptoms reported',
+        copy:'This result suggests faster clinical attention may be appropriate based on severe pain or higher-risk symptoms.'
+      };
+    }
+    if (p >= 4){
+      return {
+        key:'schedule',
+        label:'Schedule a visit',
+        summary:'Moderate symptom burden reported',
+        copy:'This result suggests a visit should be scheduled soon, while symptoms are monitored for change.'
+      };
+    }
+    return {
+      key:'monitor',
+      label:'Monitor at home',
+      summary:'Milder symptoms reported',
+      copy:'This result suggests watchful monitoring may be reasonable unless symptoms worsen or new red flags appear.'
+    };
+  }
+
+  function submitPatient(){
+    const name = document.getElementById('name').value.trim();
+    const symptoms = document.getElementById('symptoms').value.trim();
+    const pain = document.getElementById('pain').value;
+    const insurance = document.getElementById('insurance').value;
+
+    if(!name || !symptoms || !pain){
+      alert('Please enter a name, symptoms, and pain level.');
+      return;
+    }
+
+    const result = triage(symptoms, pain);
+    const time = new Date().toLocaleString([], {dateStyle:'medium', timeStyle:'short'});
+
+    const patient = {
+      name,
+      symptoms,
+      pain:Number(pain),
+      insurance: insurance || 'Unknown',
+      time,
+      status:result.key,
+      label:result.label,
+      summary:result.summary,
+      copy:result.copy,
+      handled:false
+    };
+
+    patients.push(patient);
+    renderTriage(result);
+    renderPatients();
+    showView('provider');
+  }
+
+  function renderTriage(result){
+    const box = document.getElementById('triageResult');
+    const labelClass = result.key === 'urgent' ? 'triage-urgent' : result.key === 'schedule' ? 'triage-schedule' : 'triage-monitor';
+    box.className = 'triage-banner';
+    box.innerHTML = `
+      <div class="triage-label ${labelClass}">${result.label}</div>
+      <div class="triage-main">${result.summary}</div>
+      <p class="triage-copy">${result.copy}</p>
+    `;
+  }
+
+  function markHandled(index){
+    patients[index].handled = !patients[index].handled;
+    renderPatients();
+  }
+
+  function renderPatients(){
+    const list = document.getElementById('patientList');
+    const active = patients
+      .map((p, i) => ({...p, index:i}))
+      .filter(p => !p.handled)
+      .sort((a,b) => priorityRank(a.status) - priorityRank(b.status) || b.pain - a.pain);
+
+    document.getElementById('countAll').textContent = `${active.length} total`;
+    document.getElementById('countUrgent').textContent = `${active.filter(p => p.status==='urgent').length} urgent`;
+    document.getElementById('countSchedule').textContent = `${active.filter(p => p.status==='schedule').length} schedule`;
+    document.getElementById('countMonitor').textContent = `${active.filter(p => p.status==='monitor').length} monitor`;
+
+    if(active.length === 0){
+      list.innerHTML = `<div class="empty">No active patient submissions yet. Use the patient view to enter a sample case and demonstrate the live workflow.</div>`;
+      return;
+    }
+
+    list.innerHTML = active.map(p => `
+      <div class="patient-card ${p.status}" style="animation: fadeUp .28s ease both;">
+        <div class="patient-top">
+          <div>
+            <div class="patient-name">${escapeHtml(p.name)}</div>
+            <div class="patient-time">${p.time}</div>
+          </div>
+          <div class="pill ${p.status}">${p.label}</div>
+        </div>
+
+        <div class="patient-summary">${p.summary}</div>
+        <div class="patient-meta">
+          <strong>Symptoms:</strong> ${escapeHtml(p.symptoms)}<br>
+          <strong>Pain level:</strong> ${p.pain}/10<br>
+          <strong>Insurance:</strong> ${escapeHtml(p.insurance)}
+        </div>
+
+        <div class="patient-actions">
+          <button class="btn btn-secondary" onclick="markHandled(${p.index})">Mark handled</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function priorityRank(status){
+    if(status === 'urgent') return 0;
+    if(status === 'schedule') return 1;
+    return 2;
+  }
+
+  function escapeHtml(str){
+    return str
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  renderPatients();
+</script>
+</body>
+</html>
